@@ -38,7 +38,6 @@ describe("DiamondTest", async function () {
       "OwnershipFacet",
       diamondAddress
     );
-    vivariumFacet = await ethers.getContractAt("VIVARIUM", diamondAddress);
   });
 
   it("should have three facets -- call to facetAddresses function", async () => {
@@ -46,7 +45,7 @@ describe("DiamondTest", async function () {
       addresses.push(address);
     }
     console.log({ addresses });
-    assert.equal(addresses.length, 4);
+    assert.equal(addresses.length, 3);
   });
 
   it("facets should have the right function selectors -- call to facetFunctionSelectors function", async () => {
