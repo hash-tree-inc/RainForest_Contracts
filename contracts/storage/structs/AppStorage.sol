@@ -17,4 +17,5 @@ struct Constant {
     string _contractName;
     address _contractAddr;
     bytes _contractAbi;
+    uint _version;
 }
