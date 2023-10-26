@@ -19,3 +19,4 @@ struct Constant {
     bytes _contractAbi;
     uint _version;
 }
+
