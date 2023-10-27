@@ -23,7 +23,6 @@ describe("DiamondTest", async function () {
   const addresses: string[] = [];
 
   before(async function () {
-    console.log("..");
     diamondAddress = await deployDiamond();
     console.log({ diamondAddress });
     diamondCutFacet = await ethers.getContractAt(
