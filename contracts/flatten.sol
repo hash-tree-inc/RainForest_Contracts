@@ -32,6 +32,7 @@ contract OFTV2_Factory {
             _name,
             _symbol
         );
+        newContract.transferOwnership(msg.sender);
         deployedContracts.push(address(newContract));
     }
 }
