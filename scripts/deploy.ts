@@ -31,7 +31,7 @@ export async function deployDiamond() {
   // deploy facets
   console.log("");
   console.log("Deploying facets");
-  const FacetNames = ["DiamondLoupeFacet", "OwnershipFacet"];
+  const FacetNames = ["DiamondLoupeFacet", "OwnershipFacet", "BizardryFacet"];
   const cut = [];
   for (const FacetName of FacetNames) {
     const Facet = await ethers.getContractFactory(FacetName);
@@ -77,4 +77,52 @@ deployDiamond().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-1;
+// 1;
+// DiamondCutFacet deployed: 0x8dD39e2c79c5198a94F1053BDa7493d2B70EA5F2
+// Diamond deployed: 0x1493Ae190717fF95503dA9F1E813D6ACafc18A98
+// DiamondInit deployed: 0x6F35211dAFBDfBe339C1A4AaC23b3Aa7526b29Ca
+
+// Deploying facets
+// DiamondLoupeFacet deployed: 0x26Bc22CC528F33b74f339a2635c4868496B15C44
+// OwnershipFacet deployed: 0x0D6779fA8659B61d96FdB1Ec3478C1041bBCaFA6
+// BizardryFacet deployed: 0xdD8e2d7160Ba40bf259D5A5bABAF79149fF7D35B
+
+// Diamond Cut: [
+//   {
+//     facetAddress: '0x26Bc22CC528F33b74f339a2635c4868496B15C44',
+//     action: 0,
+//     functionSelectors: [
+//       '0xcdffacc6',
+//       '0x52ef6b2c',
+//       '0xadfca15e',
+//       '0x7a0ed627',
+//       '0x01ffc9a7',
+//       contract: [ContractFactory],
+//       remove: [Function: remove],
+//       get: [Function: get]
+//     ]
+//   },
+//   {
+//     facetAddress: '0x0D6779fA8659B61d96FdB1Ec3478C1041bBCaFA6',
+//     action: 0,
+//     functionSelectors: [
+//       '0x8da5cb5b',
+//       '0xf2fde38b',
+//       contract: [ContractFactory],
+//       remove: [Function: remove],
+//       get: [Function: get]
+//     ]
+//   },
+//   {
+//     facetAddress: '0xdD8e2d7160Ba40bf259D5A5bABAF79149fF7D35B',
+//     action: 0,
+//     functionSelectors: [
+//       '0x421b2d8b',
+//       contract: [ContractFactory],
+//       remove: [Function: remove],
+//       get: [Function: get]
+//     ]
+//   }
+// ]
+// Diamond cut tx:  0xd5ab999b1f40f9dfd2a05cc23ef1315a219ddc944f76edb36f7f8f017517b5de
+// Completed diamond cut

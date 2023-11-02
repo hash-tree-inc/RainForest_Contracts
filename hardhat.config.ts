@@ -1,15 +1,10 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "dotenv/config"; // import .env variables
-<<<<<<< Updated upstream
 import "./tasks";
 import "@openzeppelin/hardhat-upgrades";
 const config: HardhatUserConfig = {
-  solidity: "0.8.20",
-=======
-import '@openzeppelin/hardhat-upgrades';
-const config: HardhatUserConfig = {
-  solidity:{
+  solidity: {
     compilers: [
       {
         version: "0.8.0",
@@ -40,18 +35,16 @@ const config: HardhatUserConfig = {
       },
     ],
   },
-  
-  
->>>>>>> Stashed changes
+
   networks: {
-    klaytn_mainnet: {
+    cypress: {
       url: process.env.KLAYTN_NODE_MAIN_ENDPOINT,
       accounts: {
         mnemonic: process.env.MNEMONIC,
       },
       gasPrice: 25000000000,
     },
-    klaytn_testnet: {
+    cypress_test: {
       url: process.env.KLAYTN_NODE_TEST_ENDPOINT,
       accounts: {
         mnemonic: process.env.MNEMONIC,
