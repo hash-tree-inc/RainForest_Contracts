@@ -8,21 +8,29 @@ pragma solidity ^0.8.18;
 * Implementation of a diamond.
 /******************************************************************************/
 
-import {LibDiamond} from "../libraries/LibDiamond.sol";
-import { IDiamondLoupe } from "../interfaces/IDiamondLoupe.sol";
-import { IDiamondCut } from "../interfaces/IDiamondCut.sol";
-import { IERC173 } from "../interfaces/IERC173.sol";
-import { IERC165 } from "../interfaces/IERC165.sol";
+import {LibDiamond} from "../shared/libraries/LibDiamond.sol";
+import { IDiamondLoupe } from "../shared/interfaces/IDiamondLoupe.sol";
+import { IDiamondCut } from "../shared/interfaces/IDiamondCut.sol";
+import { IERC173 } from "../shared/interfaces/IERC173.sol";
+import { IERC165 } from "../shared/interfaces/IERC165.sol";
+import {AppStorage} from "./libraries/LibAppStorage.sol";
 
 // It is expected that this contract is customized if you want to deploy your diamond
 // with data from a deployment script. Use the init function to initialize state variables
 // of your diamond. Add parameters to the init funciton if you need to.
 
-contract DiamondInit {    
+contract RainForest {    
+    AppStorage internal s;
 
+    struct Args {
+        address bizardry;
+
+    }
     // You can add parameters to this function in order to pass in 
     // data to set your own state variables
-    function init() external {
+    function init(Args memory _args) external {
+        s.bizardry = _args.bizardry;
+        
         // adding ERC165 data
         LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
         ds.supportedInterfaces[type(IERC165).interfaceId] = true;
