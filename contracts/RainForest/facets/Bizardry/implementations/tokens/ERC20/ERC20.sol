@@ -1,8 +1,8 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.22;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract ERC20_IMPL is ERC20 {
+contract Bizardry_ERC20 is ERC20 {
     constructor(
         string memory _name,
         string memory _symbol
