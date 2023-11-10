@@ -3,6 +3,8 @@ import "@nomicfoundation/hardhat-toolbox";
 import "dotenv/config"; // import .env variables
 import "./tasks";
 import "@openzeppelin/hardhat-upgrades";
+import "@nomicfoundation/hardhat-verify";
+
 const config: HardhatUserConfig = {
   solidity: "0.8.22",
   networks: {
@@ -20,6 +22,12 @@ const config: HardhatUserConfig = {
       },
       gasPrice: 25000000000,
     },
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
+  sourcify: {
+    enabled: true,
   },
 };
 
