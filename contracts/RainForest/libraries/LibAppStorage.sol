@@ -4,9 +4,6 @@ pragma solidity ^0.8.18;
 import {LibDiamond} from "../../shared/libraries/LibDiamond.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
-/**
-@dev RainForest는 ERC20의 기능
- */
 
 struct User {
     string userNickName;
