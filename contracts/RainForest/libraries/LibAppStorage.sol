@@ -4,7 +4,6 @@ pragma solidity ^0.8.18;
 import {LibDiamond} from "../../shared/libraries/LibDiamond.sol";
 import {EnumerableSet} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 
-
 struct User {
     string userNickName;
     address userAddr;
@@ -41,7 +40,6 @@ struct Bizardry {
 struct BizardryImplementation {
     string implementationName;
     address implementationAddress;
-    address proxy;
     uint version;
 }
 

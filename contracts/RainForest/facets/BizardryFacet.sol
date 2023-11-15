@@ -3,18 +3,35 @@ pragma solidity ^0.8.22;
 
 import {AppStorage, Modifiers, LibAppStorage} from "../libraries/LibAppStorage.sol";
 import "../interfaces/IBizardry.sol";
-import "@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol";
 
-contract BizardryFacet is Modifiers{
+contract BizardryFacet is Modifiers {
+    /**
+    @dev Bizardry implementation contract 관리
+     */
 
-    function createERC20(string memory _name, string memory _symbol, uint256 _initialValue) external onlyOwner {
+    function bz_add_Implementation(
+        string memory _impleName,
+        address _implementation,
+        uint _version,
+        uint _type
+    ) external onlyOwner {
         AppStorage storage s = LibAppStorage.diamondStorage();
-        
-        BeaconProxy proxy = new BeaconProxy(
-            s.ERC20_Impl[0].proxy,
-            abi.encodeWithSignature("initialize(string,string,uint256)", _name, _symbol,_initialValue)
-        );
-
-
     }
+
+    /**
+    @dev user functions
+     */
+    function bz_payment() external {}
+
+    function bz_erc20_deploy() external {}
+
+    function bz_erc721_deploy() external {}
+
+    function bz_erc1155_deploy() external {}
+
+    // implement Version Upgrade
+    function bz_upgrade() external {}
+
+    // use layerZero
+    function bz_add_multichain_adapter() external {}
 }
