@@ -5,14 +5,21 @@ import {AppStorage, Modifiers, LibAppStorage} from "../../shared/libraries/LibAp
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract RainForestFacet is Modifiers, IERC20 {
-    function init() external returns (bool) {
+
+    event tokenRefund(address indexed _from, uint indexed _amount);
+    event toekeBuy(address indexed _to, uint indexed _amount);
+    event useTokenPayback(address indexed _to, uint indexed _amount);
+
+    function init(string memory _name, string memory _symbol, uint _initialSupply ,uint _limitSupply) external returns (bool) {
         AppStorage storage s = LibAppStorage.diamondStorage();
 
-        s.rainForest._name = "RR";
-        s.rainForest._symbol = "R";
+        s.rainForest._name = _name;
+        s.rainForest._symbol = _symbol;
         s.rainForest._decimals = 18;
-        s.rainForest._totalSupply = 100000 * 10 ** 18;
-        s.rainForest._balances[msg.sender] = s.rainForest._totalSupply;
+        s.rainForest._limitSupply = _limitSupply;
+
+        s.rainForest._totalSupply = _initialSupply * 1e18;
+        s.rainForest._balances[address(this)] = s.rainForest._totalSupply;
 
         return true;
     }
@@ -32,6 +39,10 @@ contract RainForestFacet is Modifiers, IERC20 {
         return s.rainForest._decimals;
     }
 
+    function limitSupply() public view virtual returns (uint256) {
+        AppStorage storage s = LibAppStorage.diamondStorage();
+        return s.rainForest._limitSupply;
+    }
     // ERC20 INTERFACE FUNCTIONS
 
     function totalSupply() external view returns (uint256) {
@@ -73,7 +84,7 @@ contract RainForestFacet is Modifiers, IERC20 {
     }
 
     // EXTENDED FUNCTIONS
-
+    
     // PRIVATE FUNCTIONS
 
     function _requireFunds(address from_, uint256 amount_) private view {
@@ -140,6 +151,7 @@ contract RainForestFacet is Modifiers, IERC20 {
     function _mint(address to_, uint256 amount_) private returns (bool) {
         require(to_ != address(0), "ERC20: can't mint to 0 address");
         AppStorage storage s = LibAppStorage.diamondStorage();
+        require(s.rainForest._totalSupply + amount_ <= s.rainForest._limitSupply, "ERC20: can't mint over limit supply");
         s.rainForest._totalSupply += amount_;
         s.rainForest._balances[to_] += amount_;
 
@@ -157,5 +169,40 @@ contract RainForestFacet is Modifiers, IERC20 {
 
         emit Transfer(from_, address(0), amount_);
         return true;
+    }
+
+
+    // extention functions
+    function tokenBuy(uint _amount) external payable returns (bool){
+        require(msg.value == _amount, "RainForest: amount is not equal to msg.value");
+        require(s.rainForest._totalSupply + _amount <= s.rainForest._limitSupply, "RainForest: can't mint over limit supply");
+
+        _mint(msg.sender, _amount);
+
+        emit toekeBuy(msg.sender, _amount);
+    }
+    function tokenRefund(uint _amount) external returns (bool){
+        _burn(msg.sender, _amount);
+        payable(msg.sender).transfer(_amount);
+
+        emit tokenRefund(msg.sender, _amount);
+    }
+
+
+
+    // add modifier > onlyFacetContract
+    function useTokenPayback(address _to, uint _amount) internal returns (bool){
+        require(msg.value == _amount, "RainForest: amount is not equal to msg.value");
+        require(s.rainForest._totalSupply + _amount <= s.rainForest._limitSupply, "RainForest: can't mint over limit supply");
+
+        _mint(_to, _amount);
+        
+        emit useTokenPayback(_to, _amount);
+    }
+
+
+    // admin functions
+    function exitAssets(address _to) external onlyOwner returns (bool){
+        payable(_to).transfer(address(this).balance);
     }
 }

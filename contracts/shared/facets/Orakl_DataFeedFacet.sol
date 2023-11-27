@@ -2,12 +2,13 @@
 pragma solidity ^0.8.22;
 
 import {IAggregator} from "@bisonai/orakl-contracts/src/v0.1/interfaces/IAggregator.sol";
+import {AppStorage,LibAppStorage} from "../../shared/libraries/LibAppStorage.sol";
+contract PriceFeedFacet {
+    
 
-contract DataFeedConsumer {
-    int256 public answer;
-    uint80 public roundId;
+    function getLatestData(address _proxy) public returns(int256){
+        AppStorage storage s = LibAppStorage.diamondStorage();
 
-    function getLatestData(address _proxy) public {
         IAggregator dataFeed = IAggregator(_proxy);
         (
             uint80 roundId_,
@@ -17,8 +18,10 @@ contract DataFeedConsumer {
 
         ) = dataFeed.latestRoundData();
 
-        answer = answer_;
-        roundId = roundId_;
+        s.oraklFacet.answer = answer_;
+        s.oraklFacet.roundId = roundId_;
+
+        return answer_;
     }
 
     function decimals(address _proxy) public view returns (uint8) {

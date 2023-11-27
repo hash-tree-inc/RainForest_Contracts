@@ -26,6 +26,7 @@ struct RainForest {
     uint256 _totalSupply;
     string _name;
     string _symbol;
+    uint256 _limitSupply;
 }
 
 /**
@@ -43,11 +44,17 @@ struct BizardryImplementation {
     uint version;
 }
 
+struct OraklFacet{
+    int256 answer;
+    uint80 roundId;
+}
 struct AppStorage {
     // RainForest State
     RainForest rainForest;
     // Bizardry State
     Bizardry bizardry;
+    // Orakl State
+    OraklFacet oraklFacet;
     mapping(uint => BizardryImplementation) ERC20_Impl;
     mapping(uint => BizardryImplementation) ERC721_Impl;
     mapping(uint => BizardryImplementation) ERC1155_Impl;
@@ -55,6 +62,8 @@ struct AppStorage {
 
     //
 }
+
+
 
 library LibAppStorage {
     function diamondStorage() internal pure returns (AppStorage storage ds) {
