@@ -44,17 +44,25 @@ struct BizardryImplementation {
     uint version;
 }
 
-struct OraklFacet{
+struct Orakl{
     int256 answer;
     uint80 roundId;
+    // and VRF
 }
+
+struct Finance {
+    uint256 nodePrice;
+    uint256 nodeCount;
+
+}
+
 struct AppStorage {
     // RainForest State
     RainForest rainForest;
     // Bizardry State
     Bizardry bizardry;
     // Orakl State
-    OraklFacet oraklFacet;
+    Orakl orakl;
     mapping(uint => BizardryImplementation) ERC20_Impl;
     mapping(uint => BizardryImplementation) ERC721_Impl;
     mapping(uint => BizardryImplementation) ERC1155_Impl;
@@ -85,6 +93,11 @@ contract Modifiers {
 
     modifier onlyOwner() {
         LibDiamond.enforceIsContractOwner();
+        _;
+    }
+
+    modifier onlyFacet() {
+        LibDiamond.enforceIsContractFacet();
         _;
     }
 }
