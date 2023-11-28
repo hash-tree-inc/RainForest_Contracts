@@ -18,8 +18,8 @@ contract PriceFeedFacet {
 
         ) = dataFeed.latestRoundData();
 
-        s.oraklFacet.answer = answer_;
-        s.oraklFacet.roundId = roundId_;
+        s.orakl.answer = answer_;
+        s.orakl.roundId = roundId_;
 
         return answer_;
     }

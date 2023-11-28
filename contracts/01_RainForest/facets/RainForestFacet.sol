@@ -6,17 +6,17 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract RainForestFacet is Modifiers, IERC20 {
 
-    event tokenRefund(address indexed _from, uint indexed _amount);
-    event toekeBuy(address indexed _to, uint indexed _amount);
-    event useTokenPayback(address indexed _to, uint indexed _amount);
+    event tokenRefundEvent(address indexed _from, uint indexed _amount);
+    event toekeBuyEvent(address indexed _to, uint indexed _amount);
+    event useTokenPaybackEvent(address indexed _to, uint indexed _amount);
 
-    function init(string memory _name, string memory _symbol, uint _initialSupply ,uint _limitSupply) external returns (bool) {
+    function init(string memory _name, string memory _symbol, uint _initialSupply ,uint _limitSupply) external onlyOwner returns (bool) {
         AppStorage storage s = LibAppStorage.diamondStorage();
 
         s.rainForest._name = _name;
         s.rainForest._symbol = _symbol;
         s.rainForest._decimals = 18;
-        s.rainForest._limitSupply = _limitSupply;
+        s.rainForest._limitSupply = _limitSupply * 1e18;
 
         s.rainForest._totalSupply = _initialSupply * 1e18;
         s.rainForest._balances[address(this)] = s.rainForest._totalSupply;
@@ -179,13 +179,13 @@ contract RainForestFacet is Modifiers, IERC20 {
 
         _mint(msg.sender, _amount);
 
-        emit toekeBuy(msg.sender, _amount);
+        emit toekeBuyEvent(msg.sender, _amount);
     }
     function tokenRefund(uint _amount) external returns (bool){
         _burn(msg.sender, _amount);
         payable(msg.sender).transfer(_amount);
 
-        emit tokenRefund(msg.sender, _amount);
+        emit tokenRefundEvent(msg.sender, _amount);
     }
 
 
@@ -197,7 +197,7 @@ contract RainForestFacet is Modifiers, IERC20 {
 
         _mint(_to, _amount);
         
-        emit useTokenPayback(_to, _amount);
+        emit useTokenPaybackEvent(_to, _amount);
     }
 
 

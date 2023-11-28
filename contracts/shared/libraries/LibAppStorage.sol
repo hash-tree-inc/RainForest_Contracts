@@ -96,8 +96,8 @@ contract Modifiers {
         _;
     }
 
-    modifier onlyFacet() {
-        LibDiamond.enforceIsContractFacet();
-        _;
-    }
+    // modifier onlyFacet() {
+    //     LibDiamond.enforceIsContractFacet();
+    //     _;
+    // }
 }
