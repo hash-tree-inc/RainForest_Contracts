@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@nomicfoundation/hardhat-ethers";
 import "dotenv/config"; // import .env variables
 import "./tasks";
 import "@openzeppelin/hardhat-upgrades";
@@ -12,6 +13,7 @@ const config: HardhatUserConfig = {
       url: process.env.KLAYTN_NODE_MAIN_ENDPOINT,
       accounts: {
         mnemonic: process.env.MNEMONIC,
+        path: "m/44'/0'/333'/333'/333'/",
       },
       gasPrice: 25000000000,
     },
@@ -19,6 +21,7 @@ const config: HardhatUserConfig = {
       url: process.env.KLAYTN_NODE_TEST_ENDPOINT,
       accounts: {
         mnemonic: process.env.MNEMONIC,
+        path: "m/44'/333'/333'/333/",
       },
       gasPrice: 25000000000,
     },
